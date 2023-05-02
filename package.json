@@ -9,6 +9,9 @@
   },
   "author": "Fuchs EDV",
   "license": "GPL",
+  "browserslist": [
+    "last 2 versions, not IE 11, not dead, > 2%"
+  ],
   "dependencies": {
     "@babel/preset-env": "^7.16.11",
     "@babel/preset-typescript": "^7.16.7",
