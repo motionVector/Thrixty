@@ -36,12 +36,14 @@ export class ThrixtyPlayer {
     section_move: { prepared: boolean, minimap: boolean };
 
     pixel_per_degree: number;
+    root_element_parent: HTMLElement | null;
 
     constructor(root_elem: HTMLElement) {
         Thrixty.players.push(this);
 
         this.player_id = Thrixty.players.indexOf(this);
         this.root_element = root_elem;
+        this.root_element_parent = this.root_element.parentElement;
 
         // tabindex needed for being focusable (actual id is not important)
         if(!this.root_element.getAttribute("tabindex")) {
@@ -1776,6 +1778,9 @@ export class ThrixtyPlayer {
     // GETTER & SETTER
     #refresh_player_sizings(): void {
         if (this.is_fullpage) {
+            
+            document.getElementById('thrixty-fullscreen-container')?.append(this.root_element);
+            
             this.root_element.style.position = "fixed";
             this.root_element.style.width = "90%";
             this.root_element.style.height = "90%";
@@ -1803,6 +1808,7 @@ export class ThrixtyPlayer {
 
             this.#resize_dom_objects(root_width, root_height, this.large.image_ratio);
         } else {
+            this.root_element_parent.append(this.root_element);
             this.root_element.style.position = "";
 			this.root_element.style.top = "";
 			this.root_element.style.right = "";
