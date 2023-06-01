@@ -26,4 +26,11 @@ const config: Configuration = {
     filename: "thrixty.js",
   },
 };
-export default config;
+
+
+export default (env: any, argv: any) => {
+  if (argv.mode === "development") {
+    config.watch = true;
+  }
+  return config;
+};
