@@ -195,33 +195,33 @@ export class ThrixtyPlayer {
     #init_a(): void {
         this.#parse_settings();
         this.#check_settings();
-        this.#setup_localization();
+        // this.#setup_localization();
         this.#load_small_filelist();
         if (this.can_zoom !== false) {
             this.#load_large_filelist();
         }
     }
 
-    #setup_localization(): void {
-        fetch(this.settings.localization_path, {
-            method: "get"
-        }).then(response => {
-            response.json().then(data => {
-                // Zoom advisory
-                for (let lang in data.thrixty_zoom_advisory) {
-                    if(document.documentElement.lang === lang) {
-                        this.DOM_obj.zoom_advisory.innerHTML = "<p>" + data.thrixty_zoom_advisory[lang] + "</p>";
-                        return;
-                    }
-                }
-                this.DOM_obj.zoom_advisory.innerHTML = "No text for language " + document.documentElement.lang;
+    // #setup_localization(): void {
+    //     fetch(this.settings.localization_path, {
+    //         method: "get"
+    //     }).then(response => {
+    //         response.json().then(data => {
+    //             // Zoom advisory
+    //             for (let lang in data.thrixty_zoom_advisory) {
+    //                 if(document.documentElement.lang === lang) {
+    //                     this.DOM_obj.zoom_advisory.innerHTML = "<p>" + data.thrixty_zoom_advisory[lang] + "</p>";
+    //                     return;
+    //                 }
+    //             }
+    //             this.DOM_obj.zoom_advisory.innerHTML = "No text for language " + document.documentElement.lang;
 
-                // (other elements, if added)
-            });
-        }).catch(function(err) {
-            throw Error("Error fetching text.json");
-        });
-    }
+    //             // (other elements, if added)
+    //         });
+    //     }).catch(function(err) {
+    //         throw Error("Error fetching text.json");
+    //     });
+    // }
 
     #parse_settings(): void {
         let main_box_attributes: NamedNodeMap = this.root_element.attributes;
@@ -401,6 +401,12 @@ export class ThrixtyPlayer {
 
     #check_settings(): void {
         // TODO: actually check settings for mandatories etc.
+
+        // can_zoom does stop loading large images, but they are necessary for fullscreen mode
+        // I want to disable zooming, but the player is not working when i do
+        this.can_zoom = true;
+        return;
+
         if (this.settings.zoom_mode == "none" && !Thrixty.is_mobile || this.settings.zoom_mode_mobile == "none" && Thrixty.is_mobile) {
             this.can_zoom = false;
         }
@@ -558,7 +564,7 @@ export class ThrixtyPlayer {
 				this.DOM_obj.control_container_one.appendChild(this.DOM_obj.size_btn);
 					this.DOM_obj.size_btn.appendChild(this.DOM_obj.fullsize_icon);
 					this.DOM_obj.size_btn.appendChild(this.DOM_obj.normalsize_icon);
-                this.DOM_obj.control_container_one.appendChild(this.DOM_obj.rotation_speed_gauge);
+                // this.DOM_obj.control_container_one.appendChild(this.DOM_obj.rotation_speed_gauge);
 				if (!this.settings.autoload) {
 					this.root_element.appendChild(this.DOM_obj.load_overlay);
 						this.DOM_obj.load_overlay.appendChild(this.DOM_obj.load_btn);
