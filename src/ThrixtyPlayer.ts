@@ -1784,20 +1784,36 @@ export class ThrixtyPlayer {
     // GETTER & SETTER
     #refresh_player_sizings(): void {
         if (this.is_fullpage) {
-            
+
             document.getElementById('thrixty-fullscreen-container')?.append(this.root_element);
+
+            /* force reflow */
+            this.root_element.offsetWidth;
+            this.root_element.offsetHeight;
+
+
+            const rootHeight = this.root_element.clientHeight;
+            const rootWidth = this.root_element.clientWidth;
+
+            // set the height of the wrapper
+            // this.root_element.closest('.thrixty-wrapper')
+            
             
             this.root_element.style.position = "fixed";
-            this.root_element.style.width = "90%";
-            this.root_element.style.height = "90%";
+            this.root_element.style.width = "100%";
+            this.root_element.style.height = "100%";
             this.root_element.style.maxWidth = "100%";
             this.root_element.style.maxHeight = "100%";
             this.root_element.style.border = "5px solid grey";
             this.root_element.style.background = "white";
             this.root_element.style.zIndex = "9999";
-            this.root_element.style.top = (document.body.clientHeight - this.root_element.clientHeight) / 2 + "px";
+            /* modified to work from the slick slider */
+            this.root_element.style.top = "0";
+            // this.root_element.style.top = (document.body.clientHeight - rootHeight) / 2 + "px";
             this.root_element.style.bottom = "0";
-            this.root_element.style.left = (document.body.clientWidth - this.root_element.clientWidth) / 2 + "px";
+            this.root_element.style.left = "0"; 
+
+            // this.root_element.style.left = (document.body.clientWidth - rootWidth) / 2 + "px";
             this.root_element.style.right = "0";
             this.DOM_obj.showroom.style.width = "";
             this.DOM_obj.showroom.style.height = "";
@@ -1814,7 +1830,7 @@ export class ThrixtyPlayer {
 
             this.#resize_dom_objects(root_width, root_height, this.large.image_ratio);
         } else {
-            this.root_element_parent.append(this.root_element);
+            this.root_element_parent?.append(this.root_element);
             this.root_element.style.position = "";
 			this.root_element.style.top = "";
 			this.root_element.style.right = "";
