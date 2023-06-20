@@ -7,5 +7,5 @@ app.use("/thrixty", express.static("thrixty"));
 app.use("/example", express.static("example"));
 
 app.listen(port, () => {
-    console.log("Thrixty listening on port " + port);
+    console.log(`Thrixty listening on port ${port}. Visit http://localhost:${port}`);
 })
