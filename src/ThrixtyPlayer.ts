@@ -575,7 +575,7 @@ export class ThrixtyPlayer {
             this.DOM_obj.size_btn.style.display = "none";
         }
 
-        this.DOM_obj.zoom_btn.style.display = "none";
+        // this.DOM_obj.zoom_btn.style.display = "none";
 
         this.#assign_events();
     }
@@ -817,7 +817,7 @@ export class ThrixtyPlayer {
 		this.DOM_obj.marker.addEventListener("mousemove", Thrixty.throttle(this.#marker_mousemove.bind(this), 40));
 
         // mouseover
-        this.DOM_obj.main_canvas.addEventListener("mouseover", Thrixty.throttle(this.#main_canvas_mouseover.bind(this), 40));
+        // this.DOM_obj.main_canvas.addEventListener("mouseover", Thrixty.throttle(this.#main_canvas_mouseover.bind(this), 40));
 
         // mouseup
         document.addEventListener("mouseup", this.#document_mouseup.bind(this));
@@ -930,7 +930,7 @@ export class ThrixtyPlayer {
     }
 
     #zoom_button_event_click(e: Event): void {
-        this.#toggle_zoom();
+        this.#toggle_zoom(true);
     }
 
     #size_button_event_click(e: Event): void {
@@ -1031,9 +1031,11 @@ export class ThrixtyPlayer {
             let h = main_canvas_rect.height;
             let x = main_canvas_rect.left;
             let y = main_canvas_rect.top;
-            if (e.clientX - x < 0 || e.clientX - x > w || e.clientY - y < 0 || e.clientY - y > h) {
-                this.#stop_zoom();
-            }
+            // We enabled the button again and maybe should add an option for it.
+            // with this the zoom mode is immedeately stopped when the mouse again because it is not inside the canvas
+            // if (e.clientX - x < 0 || e.clientX - x > w || e.clientY - y < 0 || e.clientY - y > h) {
+            //     this.#stop_zoom();
+            // }
             e.preventDefault();
         }
 
@@ -1074,15 +1076,15 @@ export class ThrixtyPlayer {
         }
     }
 
-    // mouseover
-    #main_canvas_mouseover(e: MouseEvent): void {
-        // user wants to zoom
-        if (!this.is_fullpage) {
-            this.#start_zoom();
-            e.preventDefault();
-        }
-    }
-    // /mouseover
+    // // mouseover
+    // #main_canvas_mouseover(e: MouseEvent): void {
+    //     // user wants to zoom
+    //     if (!this.is_fullpage) {
+    //         this.#start_zoom();
+    //         e.preventDefault();
+    //     }
+    // }
+    // // /mouseover
 
     // mouseup
     #document_mouseup(e: MouseEvent): void {
@@ -1426,9 +1428,9 @@ export class ThrixtyPlayer {
     // /IMAGE STEERING
 
     // ZOOM
-    #start_zoom(): void {
+    #start_zoom(button: boolean = false): void {
         if (this.is_zoomed) return;
-        if( this.settings.zoom_mode != "none" && !Thrixty.is_mobile || this.settings.zoom_mode_mobile != "none" && Thrixty.is_mobile){
+        if(button || this.settings.zoom_mode != "none" && !Thrixty.is_mobile || this.settings.zoom_mode_mobile != "none" && Thrixty.is_mobile){
             let main_canvas = this.DOM_obj.main_canvas;
             let minimap_canvas = this.DOM_obj.minimap_canvas;
 
@@ -1469,12 +1471,12 @@ export class ThrixtyPlayer {
         this.draw_current_image();
     }
 
-    #toggle_zoom(): void {
+    #toggle_zoom(button: boolean = false): void {
         if (!this.is_zoomed) {
             if (this.is_rotating) {
                 this.#stop_rotation();
             }
-            this.#start_zoom();
+            this.#start_zoom(button);
         } else {
             this.#stop_zoom();
         }
