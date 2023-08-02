@@ -798,7 +798,7 @@ export class ThrixtyPlayer {
 
         this.DOM_obj.rotation_speed_gauge.addEventListener("change", this.#rotation_speed_gauge_event_change.bind(this));
 
-        this.DOM_obj.main_canvas.addEventListener("dblclick", this.#main_canvas_dblclick.bind(this));
+        // this.DOM_obj.main_canvas.addEventListener("dblclick", this.#main_canvas_dblclick.bind(this));
 
         // Loading Manager
         this.DOM_obj.load_overlay.addEventListener("click", this.#load_button_event_click.bind(this));
@@ -941,10 +941,10 @@ export class ThrixtyPlayer {
         this.#quit_fullpage();
     }
 
-    #main_canvas_dblclick(e: Event): void {
-        this.#toggle_zoom();
-        e.preventDefault();
-    }
+    // #main_canvas_dblclick(e: Event): void {
+    //     this.#toggle_zoom();
+    //     e.preventDefault();
+    // }
     // /Buttons
 
     #rotation_speed_gauge_event_change(e: Event): void {
@@ -1120,11 +1120,18 @@ export class ThrixtyPlayer {
     #document_touchstart(e: TouchEvent): void {
         // user may want to stop zoom
         if (!this.is_fullpage) {
+            // check if the event comes from the .thrixty_zoom_btn element
+            assertIsNode(e.touches[0].target);
+            if (e.touches[0].target == this.DOM_obj.zoom_btn || this.DOM_obj.zoom_btn.contains(e.touches[0].target)) {
+                return;
+            }
+
             let main_canvas_rect = this.DOM_obj.main_canvas.getBoundingClientRect();
             let w = main_canvas_rect.width;
             let h = main_canvas_rect.height;
             let x = main_canvas_rect.left;
             let y = main_canvas_rect.top;
+
             if (e.touches[0].pageX - x < 0 || e.touches[0].pageX - x > w || e.touches[0].pageY - y < 0 || e.touches[0].pageY - y > h) {
                 this.#stop_zoom();
             }
@@ -2009,4 +2016,12 @@ export class ThrixtyPlayer {
     }
     
     // /GETTER & SETTER
-}   
+}
+
+
+
+function assertIsNode(e: EventTarget | null): asserts e is Node {
+    if (!e || !("nodeType" in e)) {
+        throw new Error(`Node expected`);
+    }
+}
