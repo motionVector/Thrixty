@@ -590,6 +590,9 @@ export class ThrixtyPlayer {
         for (let i = 0; i < count; i++) {
             this.#load_small_image(i);
         }
+        // trigger custom event for external scripts
+        let event = new CustomEvent("thrixty:images-loaded", { detail: { player_id: this.player_id } });
+        this.root_element.dispatchEvent(event);
     }
 
     #load_large_image(index: number): void {
