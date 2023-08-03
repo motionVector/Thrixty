@@ -1505,6 +1505,8 @@ export class ThrixtyPlayer {
         this.DOM_obj.size_btn.setAttribute("thrixty-state", "fullpaged");
         this.#refresh_player_sizings();
         this.draw_current_image();
+        let event = new CustomEvent("thrixty:enter-fullpage", { detail: { player_id: this.player_id } });
+        this.root_element.dispatchEvent(event);
     }
     
     #quit_fullpage(): void {
@@ -1513,6 +1515,8 @@ export class ThrixtyPlayer {
         this.DOM_obj.size_btn.setAttribute("thrixty-state", "normalsized");
         this.#refresh_player_sizings();
         this.draw_current_image();
+        let event = new CustomEvent("thrixty:quit-fullpage", { detail: { player_id: this.player_id } });
+        this.root_element.dispatchEvent(event);
     }
 
     #toggle_fullpage(): void {
