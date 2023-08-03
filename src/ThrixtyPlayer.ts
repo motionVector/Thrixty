@@ -1820,9 +1820,9 @@ export class ThrixtyPlayer {
             this.root_element.style.height = "100%";
             this.root_element.style.maxWidth = "100%";
             this.root_element.style.maxHeight = "100%";
-            this.root_element.style.border = "5px solid grey";
+            // this.root_element.style.border = "5px solid grey";
             this.root_element.style.background = "white";
-            this.root_element.style.zIndex = "9999";
+            this.root_element.style.zIndex = "10005";
             /* modified to work from the slick slider */
             this.root_element.style.top = "0";
             // this.root_element.style.top = (document.body.clientHeight - rootHeight) / 2 + "px";
