@@ -1501,12 +1501,12 @@ export class ThrixtyPlayer {
     // FULLPAGE
     #enter_fullpage(): void {
         if (this.is_fullpage) return;
+        let event = new CustomEvent("thrixty:enter-fullpage", { detail: { player_id: this.player_id } });
+        this.root_element.dispatchEvent(event);
         this.is_fullpage = true;
         this.DOM_obj.size_btn.setAttribute("thrixty-state", "fullpaged");
         this.#refresh_player_sizings();
         this.draw_current_image();
-        let event = new CustomEvent("thrixty:enter-fullpage", { detail: { player_id: this.player_id } });
-        this.root_element.dispatchEvent(event);
     }
     
     #quit_fullpage(): void {
